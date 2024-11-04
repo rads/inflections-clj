@@ -1,8 +1,33 @@
 (ns inflections.core
   (:refer-clojure :exclude [replace])
   (:require [clojure.string :refer [blank? lower-case upper-case replace split join]]
-            [clojure.walk :refer [keywordize-keys]]
-            [no.en.core :refer [parse-integer]]))
+            [clojure.walk :refer [keywordize-keys]]))
+
+(defn- apply-unit [number unit]
+  (if (string? unit)
+    (case (upper-case unit)
+      "M" (* number 1000000)
+      "B" (* number 1000000000)
+      number)
+    number))
+
+(defn- parse-number [s parse-fn]
+  (if-let [matches (re-matches #"\s*([-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)(M|B)?.*" (str s))]
+    #?(:clj
+       (try (let [number (parse-fn (nth matches 1))
+                  unit (nth matches 3)]
+              (apply-unit number unit))
+            (catch NumberFormatException _ nil))
+       :cljs
+       (let [number (parse-fn (nth matches 1))
+             unit (nth matches 3)]
+         (if-not (js/isNaN number)
+           (apply-unit number unit))))))
+
+(defn- parse-integer
+  "Parse `s` as a integer number."
+  [s]
+  (parse-number s #(#?(:clj Integer/parseInt :cljs js/parseInt) %1)))
 
 (defn coerce
   "Coerce the string `s` to the type of `obj`."

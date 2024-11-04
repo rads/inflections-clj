@@ -4,8 +4,9 @@
   [[https://github.com/r0man/inflections-clj/actions?query=workflow%3A%22Clojure+CI%22][https://github.com/r0man/inflections-clj/workflows/Clojure%20CI/badge.svg]]
   [[https://versions.deps.co/r0man/inflections-clj][https://versions.deps.co/r0man/inflections-clj/status.svg]]
   [[https://versions.deps.co/r0man/inflections-clj][https://versions.deps.co/r0man/inflections-clj/downloads.svg]]
+  [[https://babashka.org][https://raw.githubusercontent.com/babashka/babashka/master/logo/badge.svg]]
 
-  Rails-like inflection library for Clojure and ClojureScript.
+  Rails-like inflection library for Clojure, ClojureScript, and Babashka.
 
 ** Usage
 
